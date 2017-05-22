@@ -5,7 +5,7 @@ RUN sed -e s%http://archive.ubuntu.com/ubuntu/%mirror://mirrors.ubuntu.com/mirro
 RUN apt-get update \
  && apt-get dist-upgrade -y
 
-RUN apt-get install --no-install-recommends -y firefox ttf-wqy-microhei 
+RUN apt-get install --no-install-recommends -y firefox ttf-wqy-microhei  default-java-plugin
 # Setup locales for input methods.
 RUN apt-get install -y locales \
  && locale-gen zh_TW zh_TW.UTF-8 zh_CN zh_CN.UTF-8 en
@@ -27,15 +27,18 @@ RUN echo 'pref("browser.startup.homepage", "https://rtn.tax.nat.gov.tw/ircweb/in
  && echo 'pref("dom.disable_open_during_load", false);' >> /etc/firefox/syspref.js
 
 # Setup Firefox extensions
-RUN apt-get install --no-install-recommends -y wget
+RUN apt-get install --no-install-recommends -y wget unzip
 RUN mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384} \
  && wget --no-check-certificate -O \
-        /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi 
-
+        /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi  
 ADD firefox.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/firefox.sh
 
 USER 1000
+# Install the HiPKI plugin. But the plugin is blocked by default.
+RUN mkdir -p /home/firefox/.mozilla && \
+    unzip -d /home/firefox/.mozilla/ /usr/share/mozilla/extensions/\{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}/hipki\@chttl.com.tw.xpi plugins/*
+
 # This approach does not work, the user still need to approve the extenstion manually.
 # RUN mkdir -p /home/firefox/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384} \
 #  && wget --no-check-certificate -O \
