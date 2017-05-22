@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Disable pcscd
+sudo /etc/init.d/pcscd stop
+
+
 # Individual Income Tax
 docker run -ti --rm \
     -e XMODIFIERS=$XMODIFIERS \
