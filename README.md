@@ -2,7 +2,7 @@
 
 ## Introduction / 介紹
 
-This is a docker image help Linux Desktop Users setup their enviromenet to access to the [Web-based Personal income text reporting system. (綜合所得稅電子結算申報繳稅系統)](https://rtn.tax.nat.gov.tw/ircweb/index.jsp)
+This is a docker image help Linux Desktop Users setup their enviromenet to access to the [Web-based Personal income tax reporting system. (綜合所得稅電子結算申報繳稅系統)](https://rtn.tax.nat.gov.tw/ircweb/index.jsp)
 
 There are some requirements for access to the web system, and it can be a confusing technical challenges due to 
 
