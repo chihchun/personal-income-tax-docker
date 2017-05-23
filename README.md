@@ -6,7 +6,7 @@ This is a docker image help Linux Desktop Users setup their enviromenet to acces
 
 There are some requirements for access to the web system, and it can be a confusing technical challenges due to 
 
-* The  required components has security limitation, which blocked most of the access of the Java Web Browser Plugin by default.
+* The required components has security limitation, which blocked most of the access of the Java Web Browser Plugin by default.
 * The system requires a unsigned FIrefox extenstion, the user need to use the advanced settings before actaully install the plugin.
 
 This container image offers preinstallation of the system / 本容器鏡像提供以下預裝軟體
@@ -16,7 +16,7 @@ This container image offers preinstallation of the system / 本容器鏡像提�
     * does not save your password
     * allow pop up window for the information notice by the system.
 * OpenJDK 8 and IcedTea
-*  Chinese fonts and locale settings with input method support. 
+* Chinese fonts and locale settings with input method support. 
 * pcscd for SmartCard access.
 
 This image is only tested on 64 bit/amd64 Ubuntu 16.04. Please report if you can not use the image on the other distro.
@@ -27,7 +27,7 @@ This image is only tested on 64 bit/amd64 Ubuntu 16.04. Please report if you can
 
 * 64 bit / amd64 Linux 
 * Xorg (any X11-based Desktop Enviroement can do the work, does not support Wayland. 各種桌面環境都可以，除了 Wayland)
-* Chinese Input method / 中文輸入法 (如 fictix)
+* Chinese Input method / 中文輸入法 (如 fctix)
 * Docker Engine
 
 ### How to start / 執行方式
