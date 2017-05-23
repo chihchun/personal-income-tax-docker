@@ -1,4 +1,4 @@
-# Docker image for accessing Web-based Personal income text reporting system of Ministry of Finance, Taiwan.
+# Docker image for accessing Web-based Personal income tax reporting system of Ministry of Finance, Taiwan.
 
 ## Introduction / 介紹
 
@@ -40,8 +40,6 @@ This image is only tested on 64 bit/amd64 Ubuntu 16.04. Please report if you can
     wget https://raw.githubusercontent.com/chihchun/personal-income-tax-docker/master/2017/run.sh
     sh -x run.sh
     
--  系統第一次啟動，會問你安裝一次 HiPKI Addons, 請安裝後，選擇重新啟動。
+- 系統第一次啟動，會問你安裝一次 HiPKI Addons, 請安裝後，選擇重新啟動。
 - 自動重新啟動後預設就會進入報稅網站界面，請記得接下來跳出的視窗都要選取允取 Java 執行。系統才能正確安裝
-
-
-    
+- 如果需要儲存報表，預設路徑會是你桌面環境的下載目錄。 可執行以下命令開啟 gnome-open $(xdg-user-dir DOWNLOAD) 
