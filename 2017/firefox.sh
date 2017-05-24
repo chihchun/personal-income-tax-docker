@@ -1,7 +1,0 @@
-#!/bin/sh
-set -x
-sudo /etc/init.d/pcscd start
-firefox \
-    -new-tab -url /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi \
-    -new-tab -url https://rtn.tax.nat.gov.tw/ircweb/index.jsp
-sudo /etc/init.d/pcscd stop
