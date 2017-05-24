@@ -10,6 +10,10 @@ RUN apt-get install --no-install-recommends -y firefox ttf-wqy-microhei  default
 RUN apt-get install -y locales \
  && locale-gen zh_TW zh_TW.UTF-8 zh_CN zh_CN.UTF-8 en
 
+# Setup timezone
+RUN apt-get install -y tzdata \
+ && ln -fs /usr/share/zoneinfo/Asia/Taipei /etc/localtime
+
 RUN apt-get install --no-install-recommends -y pcscd pcsc-tools
 # setup sudo for pcscd
 RUN apt-get install -y sudo \
