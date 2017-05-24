@@ -1,9 +1,0 @@
-#!/bin/bash
-killall mLNHIICC
-rm -R /usr/local/share/NHIICC
-if [ -f /etc/redhat-release ]; then
-    sed -i '/mLNHIICC/d' /etc/rc.d/rc.local
-
-else
-    sed -i '/mLNHIICC/d' /etc/rc.local
-fi
