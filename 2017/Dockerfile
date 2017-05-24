@@ -30,7 +30,7 @@ RUN echo 'pref("browser.startup.homepage", "https://rtn.tax.nat.gov.tw/ircweb/in
 RUN apt-get install --no-install-recommends -y wget unzip
 RUN mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384} \
  && wget --no-check-certificate -O \
-        /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi  
+        /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi
 ADD firefox.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/firefox.sh
 
@@ -51,6 +51,6 @@ RUN mkdir -p /home/firefox/.mozilla && \
 # This approach does not work, the user still need to approve the extenstion manually.
 # RUN mkdir -p /home/firefox/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384} \
 #  && wget --no-check-certificate -O \
-#        /home/firefox/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi 
+#        /home/firefox/.mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi
 
 CMD /usr/local/bin/firefox.sh
