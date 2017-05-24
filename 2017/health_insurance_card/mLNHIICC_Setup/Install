@@ -1,0 +1,31 @@
+#!/bin/bash
+
+sudo killall mLNHIICC;
+if [ ! -e "/usr/local/share/NHIICC/mLNHIICC" ] ; then
+    mkdir -p /usr/local/share/NHIICC ;
+    case $(uname -m) in
+    x86_64)
+        cp ./x64/mLNHIICC /usr/local/share/NHIICC/mLNHIICC ;
+        echo "x86_64"
+        ;;
+    i*86)
+        cp ./x32/mLNHIICC /usr/local/share/NHIICC/mLNHIICC ;
+        echo "32 bit versioni"
+        ;;
+    *)
+        cp ./x32/mLNHIICC /usr/local/share/NHIICC/mLNHIICC ;
+        echo "unknow OS bits , If You are 64 Run next command:";
+        echo "cp ./x64/mLNHIICC /usr/local/share/NHIICC/mLNHIICC";
+        ;;
+    esac
+
+  chmod 755 /usr/local/share/NHIICC/mLNHIICC ;
+  cp -R ./html /usr/local/share/NHIICC ;
+  cp ./mLNHIICC /etc/init.d ;
+  cd /etc/rc5.d ;
+  ln -s ../init.d/mLNHIICC S01mLNHIICC
+fi
+
+
+  sudo /usr/local/share/NHIICC/mLNHIICC & 
+  
