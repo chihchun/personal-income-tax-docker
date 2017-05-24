@@ -34,6 +34,15 @@ RUN mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384
 ADD firefox.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/firefox.sh
 
+# Setup for reading Health Insurance ID Card
+
+# Install script for plugin of Health Insurance ID Card will use killall command
+COPY health_insurance_card /tmp/health_insurance_card/
+
+RUN apt-get install --no-install-recommends -y psmisc \
+ && cd /tmp/health_insurance_card/mLNHIICC_Setup \
+ && ./Install
+
 USER 1000
 # Install the HiPKI plugin. But the plugin is blocked by default.
 RUN mkdir -p /home/firefox/.mozilla && \
