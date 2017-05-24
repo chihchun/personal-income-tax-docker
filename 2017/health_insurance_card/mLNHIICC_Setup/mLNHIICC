@@ -1,0 +1,23 @@
+#! /bin/sh
+
+case "$1" in
+  start)
+	/usr/local/share/NHIICC/mLNHIICC
+	;;
+  stop)
+	killall mLNHIICC
+	;;
+  restart)
+	killall mLNHIICC
+	/usr/local/share/NHIICC/mLNHIICC
+	;;
+
+  status)
+	status_of_proc -p $RSYNC_PID_FILE "$DAEMON" mLNHIICC
+	;;
+  *)
+	echo "Usage: /etc/init.d/rsync {start|stop|restart|status}"
+	exit 1
+esac
+
+exit 0

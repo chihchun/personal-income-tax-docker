@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<HEAD>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<TITLE>NHIICC</TITLE>
+</HEAD>
+<BODY>
+<style>
+#chat { width: 97%; }
+.message { font-weight: bold; }
+.message:before { content: ' '; color: #bbb; font-size: 14px; }
+#log {
+  overflow: auto;
+  max-height: 300px;
+  list-style: none;
+  padding: 0;
+}
+#log li {
+  border-top: 1px solid #ccc;
+  margin: 0;
+  padding: 10px 0;
+}
+body { 
+  font: normal 16px/20px "Helvetica Neue", Helvetica, sans-serif;
+  background: rgb(237, 237, 236);
+  margin: 0;
+  margin-top: 40px;
+  padding: 0;
+}
+
+section, header {
+  display: block;
+}
+
+#wrapper {
+  width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  border-top: 1px solid #fff;
+  padding-bottom: 16px;
+}
+
+h1 {
+  padding-top: 10px;
+}
+
+h2 {
+  font-size: 100%;
+  font-style: italic;
+}
+
+header,
+article > * {
+  margin: 20px;
+}
+
+#status {
+  padding: 5px;
+  color: #fff;
+  background: #ccc;
+}
+
+#status.fail {
+  background: #c00;
+}
+
+#status.success {
+  background: #0c0;
+}
+
+#status.offline {
+  background: #c00;
+}
+
+#status.online {
+  background: #0c0;
+}
+
+#html5badge {
+  margin-left: -30px;
+  border: 0;
+}
+
+#html5badge img {
+  border: 0;
+}
+</style>
+
+<form action="" method="post" id="myform" name="myform">
+<table border="1">
+<tr>
+<td>browserType</td>
+<td id="browserType"></td>
+</tr>
+<tr>
+<td>platform</td>
+<td id="platform"></td>
+</tr>
+<tr>
+<td>wsSupport</td>
+<td id="wsSupport">
+<img src="img/clear.png" id="wsSupportImg" alt="" width="25" height="25" border="0">
+</td>
+</tr>
+<tr>
+<td>GetBasic</td>
+<td colspan="2">
+<button type="button" onclick="ws_GetBasic();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>GetRandom</td>
+<td colspan="2">
+<button type="button" onclick="ws_GetRandom();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>GetVersion</td>
+<td colspan="2">
+<button type="button" onclick="ws_GetVersion();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>H_Sign</td>
+<td colspan="2">
+<button type="button" onclick="ws_H_Sign();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>EnCrypt</td>
+<td colspan="2">
+<button type="button" onclick="ws_EnCrypt();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>SecureGetBasic</td>
+<td colspan="2">
+<button type="button" onclick="ws_SecureGetBasicWithParam();">Click Me!</button>
+</td>
+</tr>
+<tr>
+<td>Response</td>
+<td>
+<textarea name="displayText" id="displayText" rows="6" cols="50"></textarea>
+</td>
+</tr>
+<tr>
+<td>status</td>
+<td id="status" name="status">
+</td>
+</tr>
+</table>
+<div id="log"></div>
+</form>
+<script type="text/javascript" src="js/stuff.js"></script>
+<script language="javascript" type="text/javascript">
+	//connected = document.getElementById("connected");
+    <!-- log = document.getElementById("log"); -->
+    <!-- chat = document.getElementById("chat"); -->
+    <!-- form = chat.form; -->
+	var browserName;
+    var ChildWin;
+    var wsUri = "wss://127.0.0.1:7777/echo";  	
+//    var httpsAcceptUri = "https://127.0.0.1:7777";  	
+    state = document.getElementById("status");
+// 	var wsUri = "wss://iccert.nhi.gov.tw:7777/echo"; 
+	
+	// Handle difference for IE.
+	if (window.addEventListener)
+	{
+		window.addEventListener("load", browserDetect, false);
+	}
+	else if (window.attachEvent)
+	{
+		window.attachEvent("onload", browserDetect)    
+	}
+
+	function browserDetect()
+	{
+		document.getElementById("browserType").innerHTML = BrowserDetect.browser + ' ' + BrowserDetect.version;
+		browserName = BrowserDetect.browser;
+		if(browserName == "Safari"){
+            wsUri = "wss://127.0.0.1:7776/echo";  	
+        }
+		document.getElementById("platform").innerHTML = BrowserDetect.OS;
+		if (window.WebSocket)
+		{
+		  document.getElementById("wsSupportImg").src = "img/check.png"
+		}
+		else
+		{
+		  document.getElementById("wsSupportImg").src = "img/cross.png"
+		}
+        var arr = document.cookie.match(new RegExp("(^| )"+"mNHIICCService"+"=([^;]*)(;|$)"));
+        if(arr!=null) {
+          var exp = new Date();
+          exp.setTime(exp.getTime() - 1);
+          var cval=unescape(arr[2]);
+           document.cookie= name + "="+cval+";expires="+exp.toGMTString();
+        }
+    
+		onLoad();
+	}
+
+	function onLoad()
+    {
+		//if(browserName != "Chrome"){
+//			var name = 'popUp';
+//			var appearence = 'dependent=yes,menubar=no,resizable=no,' +
+//						'status=no,toolbar=no,titlebar=no,' +
+//						'left=5,top=180,width=420px,height=300px';
+			//ChildWin=window.open("https://127.0.0.1:7777",name,appearence);
+//            ChildWin=window.open(httpsAcceptUri,name,appearence);
+		//}
+        //var wsUri = "wss://127.0.0.1:7777/echo";  	
+        websocket = new WebSocket(wsUri);
+        websocket.onopen = function(evt) { onOpen(evt) };
+        websocket.onclose = function(evt) { onClose(evt) };
+        websocket.onmessage = function(evt) { onMessage(evt) };
+        websocket.onerror = function(evt) { onError(evt) };
+    }
+  
+    function onOpen(evt)
+    {
+        state.className = "success";
+        state.innerHTML = "Connected to server";
+        var exp  = new Date();    
+        exp.setTime(exp.getTime() + 60000);
+        document.cookie = "mNHIICCService="+ escape ("Conn") + ";expires=" + exp.toGMTString();        
+        ChildWin.close();
+    }
+  
+    function onClose(evt)
+    {
+        state.className = "fail";
+        state.innerHTML = "Not connected";
+        //connected.innerHTML = "0"; 
+        ChildWin.close();
+    }
+	
+	function ws_GetBasic() {
+		document.getElementById("displayText").value ="";
+		websocket.send("GetBasic");
+	}
+	
+	function ws_GetRandom() {
+		document.getElementById("displayText").value ="";
+		websocket.send("GetRandom");
+	}
+	
+	function ws_GetVersion() {
+		document.getElementById("displayText").value ="";
+		websocket.send("GetVersion");
+	}
+	
+	function ws_H_Sign() {
+		websocket.send("H_Sign?Random="+"0001"+document.getElementById("displayText").value);
+		document.getElementById("displayText").value ="";
+	}
+    
+ 	function ws_EnCrypt() {
+		websocket.send("EnCrypt?Pwd="+"123456789012");
+		document.getElementById("displayText").value ="";
+	}
+	
+	function ws_SecureGetBasicWithParam() {
+		websocket.send("SecureGetBasicWithParam?Pwd="+"44666");
+		document.getElementById("displayText").value ="";
+	}
+	
+   function onMessage(evt)
+    {
+        // There are two types of messages: 
+        //     1. a chat participant message itself
+        //     2. a message with a number of connected chat participants
+		// alert("msg!!"+evt.data);
+		document.getElementById("displayText").value = evt.data;
+        var message = evt.data;
+		/*
+        if (message.startsWith("log:"))
+        {
+            message = message.slice("log:".length);
+            log.innerHTML = '<li class="message">' + message + "</li>" + log.innerHTML;	
+        }
+        else if (message.startsWith("connected:"))
+        {
+            message = message.slice("connected:".length);
+            connected.innerHTML = message;	
+        } 
+		*/		
+    }
+
+    function onError(evt)
+    { 
+        state.className = "fail";
+        state.innerHTML = "Communication error";
+		document.getElementById("displayText").value = evt.data;
+		//if(browserName != "Chrome"){
+//			var name = 'popUp';
+//			var appearence = 'dependent=yes,menubar=no,resizable=no,' +
+//						'status=no,toolbar=no,titlebar=no,' +
+//						'left=5,top=280,width=420px,height=300px';
+			//window.open("https://127.0.0.1:7777",name,appearence);
+//            ChildWin=
+//            window.open(httpsAcceptUri,name,appearence);
+			//var wsUri = "wss://127.0.0.1:7777/echo";  	
+			websocket = new WebSocket(wsUri);
+			websocket.onopen = function(evt) { onOpen(evt) };
+			websocket.onclose = function(evt) { onClose(evt) };
+			websocket.onmessage = function(evt) { onMessage(evt) };
+			websocket.onerror = function(evt) { onError(evt) };
+		//}
+    }
+	
+    function addMessage()
+    {
+        var message = chat.value;
+      
+        chat.value = "";
+	  
+        websocket.send(message);
+    }	
+
+</script>
+</BODY>
+</HTML>
