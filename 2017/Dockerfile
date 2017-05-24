@@ -36,7 +36,11 @@ RUN chmod 755 /usr/local/bin/start.sh
 
 # Setup for reading Health Insurance ID Card
 
-ADD health_insurance_card/mLNHIICC_Setup.Ubuntu16.tar.gz /tmp/health_insurance_card/
+RUN wget --no-check-certificate -P /tmp/health_insurance_card https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip
+
+RUN cd /tmp/health_insurance_card \
+  && unzip mLNHIICC_Setup.Ubuntu.zip \
+  && tar zxvf mLNHIICC_Setup.Ubuntu16.tar.gz
 
 # Install script for plugin of Health Insurance ID Card will use killall command
 RUN apt-get install --no-install-recommends -y psmisc \
