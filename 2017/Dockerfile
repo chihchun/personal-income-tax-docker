@@ -36,12 +36,13 @@ RUN chmod 755 /usr/local/bin/start.sh
 
 # Setup for reading Health Insurance ID Card
 
-# Install script for plugin of Health Insurance ID Card will use killall command
-COPY health_insurance_card /tmp/health_insurance_card/
+ADD health_insurance_card/mLNHIICC_Setup.Ubuntu16.tar.gz /tmp/health_insurance_card/
 
+# Install script for plugin of Health Insurance ID Card will use killall command
 RUN apt-get install --no-install-recommends -y psmisc \
  && cd /tmp/health_insurance_card/mLNHIICC_Setup \
- && ./Install
+ && ./Install \
+ && sed -i '2i. /lib/lsb/init-functions' ./mLNHIICC
 
 USER 1000
 # Install the HiPKI plugin. But the plugin is blocked by default.
