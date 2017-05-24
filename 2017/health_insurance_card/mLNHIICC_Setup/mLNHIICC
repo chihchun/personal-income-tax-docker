@@ -1,5 +1,8 @@
 #! /bin/sh
 
+# To make status_of_proc below can be used in the docker container.
+. /lib/lsb/init-functions
+
 case "$1" in
   start)
 	/usr/local/share/NHIICC/mLNHIICC
