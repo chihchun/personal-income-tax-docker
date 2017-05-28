@@ -38,13 +38,15 @@ RUN mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384
 ADD start.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/start.sh
 
+
 # Setup for reading Health Insurance ID Card
-
 RUN wget --no-check-certificate -P /tmp/health_insurance_card https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip
-
 RUN cd /tmp/health_insurance_card \
   && unzip mLNHIICC_Setup.Ubuntu.zip \
   && tar zxvf mLNHIICC_Setup.Ubuntu16.tar.gz
+# Install COMODO RSA Organization Validation Secure Server CA (SHA-2) for the NHIICC daemon.
+RUN wget -O /usr/local/share/ca-certificates/comodorsaorganizationvalidationsecureserverca.crt https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/968/821025 \
+ && update-ca-certificates
 
 # Install script for plugin of Health Insurance ID Card will use killall command
 RUN apt-get install --no-install-recommends -y psmisc \
