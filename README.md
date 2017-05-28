@@ -48,3 +48,9 @@ This image is only tested on 64 bit/amd64 Ubuntu 16.04. Please report if you can
     - 相關套件應該已經預裝在 Docker 的容器中了，但先必須點選頁面中的「設定伺服器為可信任服務」才可以正常使用。
     - 第一次使用請按申請密碼，需要使用到健保卡和讀卡機，還有戶口名簿上的戶號作為申請的依據，並填寫信箱，接著要設一組認証密碼，就是之後報稅系統使用健保卡登入要輸入的。
     - 申請成功後會在信箱收到認証信，點選認証連結完成認証就行了，認証的時候健保卡一樣要插在讀卡機中。
+
+## Contributor / 貢獻者
+
+* Rex Tsai.
+* BlueT - Fix timezone issue for credit card payment
+* M157q (shunyi) - Support NHI IC Cards.
