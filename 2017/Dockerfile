@@ -17,7 +17,7 @@ RUN apt-get install -y tzdata \
 RUN apt-get install --no-install-recommends -y pcscd pcsc-tools
 # setup sudo for pcscd
 RUN apt-get install -y sudo \
- && echo "firefox ALL=NOPASSWD: /etc/init.d/pcscd, /bin/su" >> /etc/sudoers.d/firefox
+ && echo "firefox ALL=NOPASSWD: /etc/init.d/pcscd, /bin/su, /usr/local/src/mLNHIICC_Setup/mLNHIICC" >> /etc/sudoers.d/firefox
 
 # vim for debug purpose.
 # RUN apt-get install -y vim
@@ -35,24 +35,24 @@ RUN apt-get install --no-install-recommends -y wget unzip
 RUN mkdir -p /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384} \
  && wget --no-check-certificate -O \
         /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/hipki@chttl.com.tw.xpi https://rtn.tax.nat.gov.tw/ircweb/include/npHiPKIClient-linux-etax64.xpi
-ADD start.sh /usr/local/bin
-RUN chmod 755 /usr/local/bin/start.sh
-
 
 # Setup for reading Health Insurance ID Card
-RUN wget --no-check-certificate -P /tmp/health_insurance_card https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip
-RUN cd /tmp/health_insurance_card \
-  && unzip mLNHIICC_Setup.Ubuntu.zip \
-  && tar zxvf mLNHIICC_Setup.Ubuntu16.tar.gz
+# Install script for plugin of Health Insurance ID Card will use killall command
+RUN apt-get install --no-install-recommends -y libnss3-tools psmisc \
+ && wget --no-check-certificate -P /tmp https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip \
+ && unzip -d /tmp /tmp/mLNHIICC_Setup.Ubuntu.zip \
+ && tar zxvf /tmp/mLNHIICC_Setup.Ubuntu16.tar.gz -C /usr/local/src \
+ && cd /usr/local/src/mLNHIICC_Setup/ && ./Install \
+ && sed -i '2i. /lib/lsb/init-functions' /usr/local/src/mLNHIICC_Setup/mLNHIICC \
+ && rm -rf /tmp/*
+
 # Install COMODO RSA Organization Validation Secure Server CA (SHA-2) for the NHIICC daemon.
 RUN wget -O /usr/local/share/ca-certificates/comodorsaorganizationvalidationsecureserverca.crt https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/968/821025 \
+ && wget -O /usr/local/share/ca-certificates/comodorsadomainvalidationsecureserverca.crt https://support.comodo.com/index.php?/Knowledgebase/Article/GetAttachment/970/821027 \
  && update-ca-certificates
 
-# Install script for plugin of Health Insurance ID Card will use killall command
-RUN apt-get install --no-install-recommends -y psmisc \
- && cd /tmp/health_insurance_card/mLNHIICC_Setup \
- && ./Install \
- && sed -i '2i. /lib/lsb/init-functions' ./mLNHIICC
+ADD start.sh /usr/local/bin
+RUN chmod 755 /usr/local/bin/start.sh
 
 USER 1000
 # Install the HiPKI plugin. But the plugin is blocked by default.
