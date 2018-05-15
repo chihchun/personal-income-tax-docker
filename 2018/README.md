@@ -22,8 +22,9 @@
 * Docker Engine
 
 ### 執行方式
-    # 請先確保你已經安裝 docker
+    # 請先確保你已經安裝 docker，並確保用戶加入 docker 群組。
     sudo apt-get install docker.io
+    sudo usermod -a -G docker $USER
     # 以下命令執行後，會要求你輸入個人密碼，並以 sudo 關閉 pcscd, scdaemon 等佔用讀卡機的軟體。
     wget https://raw.githubusercontent.com/chihchun/personal-income-tax-docker/master/2018/run.sh
     bash run.sh
