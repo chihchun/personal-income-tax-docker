@@ -25,11 +25,10 @@
     sudo apt-get install docker.io
     sudo usermod -a -G docker $USER
     # 以下命令執行後，會要求你輸入個人密碼，並以 sudo 關閉 pcscd, scdaemon 等佔用讀卡機的軟體。
-    wget https://raw.githubusercontent.com/chihchun/personal-income-tax-docker/master/2018/run.sh
+    wget https://raw.githubusercontent.com/chihchun/personal-income-tax-docker/master/2019/run.sh
     bash run.sh
 
 - 如果要使用健保卡來認証的話，請移到第 2 個分頁或打開 <https://iccert.nhi.gov.tw:7777/> 頁面。
-    - 由於健保卡網路服務註冊元件使用於 2018/02/02 過期的憑證，必須點選頁面中的「設定伺服器為可信任服務」才可以正常使用。
     - 第一次使用請按申請密碼，需要使用到健保卡和讀卡機還有戶口名簿上的戶號作為申請的依據。
     - 並填寫信箱，接著要設一組認証密碼，就是之後報稅系統使用健保卡登入要輸入的。
     - 申請成功後會在信箱收到認証信，點選認証連結完成認証就行了，認証的時候健保卡一樣要插在讀卡機中。
