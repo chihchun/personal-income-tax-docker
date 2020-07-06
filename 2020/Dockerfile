@@ -1,4 +1,4 @@
-FROM ubuntu:bionic-20190424
+FROM ubuntu:bionic-20200526
 LABEL maintainer="https://about.me/chihchun"
 
 RUN sed -e s%http://archive.ubuntu.com/ubuntu/%mirror://mirrors.ubuntu.com/mirrors.txt% -i /etc/apt/sources.list
@@ -23,9 +23,11 @@ RUN apt-get install -y sudo \
 
 RUN echo 'pref("browser.startup.homepage", "https://efile.tax.nat.gov.tw/irxw/index.jsp");' >> /etc/firefox/syspref.js \
  && echo 'pref("privacy.cpd.passwords", true);' >> /etc/firefox/syspref.js \
- && echo 'pref("toolkit.telemetry.reportingpolicy.firstRun", false);' >> /etc/firefox/syspref.js
+ && echo 'pref("toolkit.telemetry.reportingpolicy.firstRun", false);' >> /etc/firefox/syspref.js \
+ && echo 'pref("security.enterprise_roots.enabled", true);' >> /etc/firefox/syspref.js
 
 RUN apt-get install --no-install-recommends -y wget unzip ca-certificates
+
 # MOICA內政部憑證管理中心-跨平台網頁元件 - http://moica.nat.gov.tw/rac_plugin.html
 RUN wget -O /dev/stdout https://moica.nat.gov.tw/download/File/HiPKILocalSignServer/linux/HiPKILocalSignServerApp.tar.gz | tar zxvf - -C /usr/local         
 
@@ -35,6 +37,12 @@ RUN wget -P /tmp https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup
  && unzip -d /tmp /tmp/mLNHIICC_Setup.Ubuntu.zip mLNHIICC_Setup.tar.gz \
  && tar zxvf /tmp/mLNHIICC_Setup.tar.gz -C /usr/local \
  && cd /usr/local/mLNHIICC_Setup/ && ./Install
+
+# Overwrite the certification for iccert.nhi.gov.tw:7777
+RUN useradd --create-home firefox
+RUN mkdir -p /home/firefox/.mozilla/firefox/default
+ADD cert_override.txt /home/firefox/.mozilla/firefox/default
+RUN chown -R 1000.1000 /home/firefox/
 
 # Install driver for EZUSB
 RUN apt-get install --no-install-recommends -y git ca-certificates
@@ -52,8 +60,6 @@ RUN rm -rf /tmp/* /var/tmp/*
 ADD start.sh /usr/local/bin
 RUN chmod 755 /usr/local/bin/start.sh
 
-RUN useradd --create-home firefox
-USER 1000
-
 # Run the final script
+USER 1000
 CMD /usr/local/bin/start.sh
