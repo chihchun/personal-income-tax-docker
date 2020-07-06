@@ -23,5 +23,6 @@ docker run -ti --rm \
     --privileged -v /dev/bus/usb:/dev/bus/usb \
     -v $(xdg-user-dir DOWNLOAD):/home/firefox/Downloads \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    chihchun/personal-income-tax:2019 \
+    --shm-size 256m \
+    chihchun/personal-income-tax:2020 \
     $@

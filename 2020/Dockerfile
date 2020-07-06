@@ -25,15 +25,15 @@ RUN echo 'pref("browser.startup.homepage", "https://efile.tax.nat.gov.tw/irxw/in
  && echo 'pref("privacy.cpd.passwords", true);' >> /etc/firefox/syspref.js \
  && echo 'pref("toolkit.telemetry.reportingpolicy.firstRun", false);' >> /etc/firefox/syspref.js
 
-RUN apt-get install --no-install-recommends -y wget unzip
+RUN apt-get install --no-install-recommends -y wget unzip ca-certificates
 # MOICA內政部憑證管理中心-跨平台網頁元件 - http://moica.nat.gov.tw/rac_plugin.html
-RUN wget -O /dev/stdout http://moica.nat.gov.tw/download/File/HiPKILocalSignServer/linux/HiPKILocalSignServerApp.tar.gz | tar zxvf - -C /usr/local
+RUN wget -O /dev/stdout https://moica.nat.gov.tw/download/File/HiPKILocalSignServer/linux/HiPKILocalSignServerApp.tar.gz | tar zxvf - -C /usr/local         
 
 # Setup for reading Health Insurance ID Card
 # 健保卡網路服務註冊－環境檢測(Chrome、FireFox、Opera、Edge) - https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mEventesting.htm
-RUN wget --no-check-certificate -P /tmp https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip \
- && unzip -d /tmp /tmp/mLNHIICC_Setup.Ubuntu.zip mLNHIICC_Setup.Ubuntu16.tar.gz \
- && tar zxvf /tmp/mLNHIICC_Setup.Ubuntu16.tar.gz -C /usr/local \
+RUN wget -P /tmp https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/mLNHIICC_Setup.Ubuntu.zip \
+ && unzip -d /tmp /tmp/mLNHIICC_Setup.Ubuntu.zip mLNHIICC_Setup.tar.gz \
+ && tar zxvf /tmp/mLNHIICC_Setup.tar.gz -C /usr/local \
  && cd /usr/local/mLNHIICC_Setup/ && ./Install
 
 # Install driver for EZUSB
