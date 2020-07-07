@@ -2,7 +2,7 @@
 
 ORG=chihchun
 PROJECT=$(basename $(readlink -f .) -docker)
-VERSION=$(date +%Y)
+VERSION=$(date +"%Y%m%d%H%M%S")
 DOCKER_TAG=${ORG}/${PROJECT}:${VERSION}
 DOCKER_LATEST_TAG=${ORG}/${PROJECT}:latest
 

@@ -24,5 +24,5 @@ docker run -ti --rm \
     -v $(xdg-user-dir DOWNLOAD):/home/firefox/Downloads \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     --shm-size 256m \
-    chihchun/personal-income-tax:2020 \
+    chihchun/personal-income-tax:latest \
     $@
