@@ -57,5 +57,6 @@ This image is only tested on 64 bit/amd64 Ubuntu 16.04/18.04/20.04. Please repor
 
 ## Contributor / 貢獻者
 
-* Rex Tsai.
-* 
+* [Rex Tsai](https://github.com/chihchun)
+* [Frank Jheng](https://github.com/M157q)
+* [Matthew Lien](https://github.com/bluet)
