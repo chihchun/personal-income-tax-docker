@@ -12,8 +12,9 @@ sudo /usr/local/share/NHIICC/mLNHIICC
 
 firefox \
     --profile ${HOME}/.mozilla/firefox/default \
-    https://github.com/chihchun/personal-income-tax-docker/blob/master/2020/README.md \
+    https://github.com/chihchun/personal-income-tax-docker/blob/master/README.md \
+    https://emask.taiwan.gov.tw/msk/index.jsp \
     https://efile.tax.nat.gov.tw/irxw/index.jsp \
     https://iccert.nhi.gov.tw:7777 \
-    https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/webtesting/SampleY.aspx \
-    https://emask.taiwan.gov.tw/msk/index.jsp
+    https://cloudicweb.nhi.gov.tw/cloudic/system/SMC/webtesting/SampleY.aspx
+    
