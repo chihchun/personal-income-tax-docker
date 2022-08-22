@@ -15,6 +15,7 @@ xhost +localhost
 # Individual Income Tax
 docker run -ti --rm \
     -e XMODIFIERS=$XMODIFIERS \
+    -e GTK_IM_MODULE=$GTK_IM_MODULE \
     -e LANGUAGE=$LANGUAGE \
     -e LC_ALL=$LC_ALL \
     -e LANG=$LANG \
